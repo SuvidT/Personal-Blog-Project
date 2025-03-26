@@ -34,8 +34,6 @@ def article(articleName):
     md_html = render_md(articleName)
     return render_template("article.html", content=md_html)
 
-    # 4) make a content template in templates folder
-
 ########## Execution of Websites ##########
 if __name__ == '__main__':
     app.run(debug=True)
