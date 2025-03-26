@@ -6,7 +6,7 @@ from markupsafe import escape
 app = Flask(__name__)
 
 def render_md(filename):
-    with open(f"articles/{filename}", "r", encoding="utf-8") as f:
+    with open(f"articles/{filename}.md", "r", encoding="utf-8") as f:
         content = f.read()
     return markdown.markdown(content)
 
@@ -27,11 +27,13 @@ def article(articleName):
     # 1) check if file exists with OS
     file_path = f"articles/{escape(articleName)}.md"
     if not exists(file_path):
+        # 2) if not render a template
         return render_template('404.html'), 404
-    else:
-        return f"<h1>{escape(articleName)}</h1>"
-    # 2) if not render a template
+
     # 3) if yes then render it with the content template
+    md_html = render_md(articleName)
+    return render_template("article.html", content=md_html)
+
     # 4) make a content template in templates folder
 
 ########## Execution of Websites ##########
