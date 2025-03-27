@@ -1,6 +1,7 @@
 from os.path import exists
 from flask import Flask, render_template
 import markdown
+import json
 from markupsafe import escape
 
 app = Flask(__name__)
@@ -9,6 +10,11 @@ def render_md(filename):
     with open(f"articles/{filename}.md", "r", encoding="utf-8") as f:
         content = f.read()
     return markdown.markdown(content)
+
+def render_json(filename):
+    with open("articleDates.json", "r") as f:
+        data = json.load(f)
+    return filename, data[filename]
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -31,8 +37,9 @@ def article(articleName):
         return render_template('404.html'), 404
 
     # 3) if yes then render it with the content template
-    md_html = render_md(articleName)
-    return render_template("article.html", content=md_html)
+    content = render_md(articleName)
+    title, date = render_json(articleName)
+    return render_template("article.html", title=title, date=date, content=content)
 
 ########## Execution of Websites ##########
 if __name__ == '__main__':
