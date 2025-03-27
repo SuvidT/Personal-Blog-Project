@@ -3,12 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markdown Viewer</title>
+    <title>{{ title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container">
-        {{ content | safe }}
+        <!-- Title Section -->
+        <div class="article-title">
+            <h1>{{ title }}</h1>
+        </div>
+
+        <!-- Date Section -->
+        <div class="article-date">
+            <p>Published on: {{ date }}</p>
+        </div>
+
+        <!-- Content Section -->
+        <div class="article-content">
+            {{ content | safe }}
+        </div>
     </div>
 </body>
 </html>
